@@ -10,6 +10,17 @@ interface LayoutProps {
 
 export default function Layout({ children }: LayoutProps) {
   const theme = useAppStore((s) => s.theme);
+  const currentStep = useAppStore((s) => s.currentStep);
+
+  const continueRouteByStep = {
+    tdah: '/tdah',
+    tea: '/tea',
+    altasHabilidades: '/altas-habilidades',
+  } as const;
+
+  const showContinueLink = currentStep === 'tdah' || currentStep === 'tea' || currentStep === 'altasHabilidades';
+  const continueRoute = showContinueLink ? continueRouteByStep[currentStep] : '/';
+  const hasFinishedQuestionnaire = currentStep === 'results' || currentStep === 'recommendations';
 
   useEffect(() => {
     const root = document.documentElement;
@@ -30,7 +41,27 @@ export default function Layout({ children }: LayoutProps) {
               AutoAvaliação Neurodiversidade
             </span>
           </Link>
-          <ThemeToggle />
+          <div className="flex items-center gap-4">
+            <div className="flex flex-col items-end text-sm">
+              {showContinueLink && (
+                <Link
+                  to={continueRoute}
+                  className="text-indigo-600 dark:text-indigo-400 hover:underline font-medium"
+                >
+                  Continuar de onde parou
+                </Link>
+              )}
+              {hasFinishedQuestionnaire && (
+                <Link
+                  to="/resultados"
+                  className="text-indigo-600 dark:text-indigo-400 hover:underline font-medium"
+                >
+                  Ver resultado anterior
+                </Link>
+              )}
+            </div>
+            <ThemeToggle />
+          </div>
         </div>
       </header>
       <main className="max-w-4xl mx-auto px-4 py-8">

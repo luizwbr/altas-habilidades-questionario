@@ -51,6 +51,18 @@ npm run build
 npm run preview
 ```
 
+## 🌐 Deploy automático no GitHub Pages
+
+O projeto já inclui CI/CD em [.github/workflows/deploy-pages.yml](.github/workflows/deploy-pages.yml).
+
+### Como ativar
+
+1. Faça push para o branch `main`
+2. No GitHub, vá em **Settings → Pages**
+3. Em **Build and deployment**, selecione **Source: GitHub Actions**
+
+Após isso, cada push em `main` gera build e publica automaticamente no GitHub Pages.
+
 ## 🔒 Privacidade
 
 Todos os dados são armazenados **exclusivamente no dispositivo do usuário** via `localStorage`. Nenhuma resposta é enviada a servidores externos.

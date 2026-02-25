@@ -52,6 +52,15 @@ export default function Results() {
     { key: 'altasHabilidades' as const, score: ahScore, level: ahLevel },
   ];
 
+  const highestScore = scores.reduce((currentHighest, scoreItem) => {
+    if (scoreItem.score > currentHighest.score) return scoreItem;
+    return currentHighest;
+  }, scores[0]);
+
+  const shareText = `Meu resultado na Autoavaliação de Neurodiversidade: TDAH ${tdahScore}%, TEA ${teaScore}% e Altas Habilidades ${ahScore}%. Maior indicativo: ${categoryInfo[highestScore.key].name} (${highestScore.score}%).`;
+  const pageUrl = typeof window !== 'undefined' ? window.location.href : '';
+  const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(pageUrl)}`;
+
   return (
     <div className="space-y-6">
       <div>
@@ -105,6 +114,14 @@ export default function Results() {
       </div>
 
       <div className="flex flex-col sm:flex-row gap-3 justify-center pt-4">
+        <a
+          href={shareUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="px-8 py-3 border border-indigo-600 text-indigo-600 dark:text-indigo-400 dark:border-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 font-semibold rounded-xl transition-colors text-center"
+        >
+          Compartilhar resultado nas redes sociais
+        </a>
         <button
           onClick={() => { setStep('recommendations'); navigate('/recomendacoes'); }}
           className="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl transition-colors"
